@@ -8,10 +8,15 @@ void prepare_grid(int w, int h, int** matrix);
 void build_maze_dfs(int w, int h, int** matrix);
 void output_maze(int w, int h, int** matrix);
 
-int main()
+int main(int argc, char* argv[])
 {
     size_t w, h;
-    scanf("%zd %zd", &w, &h);
+    if (argc >= 3) {
+        w = atoi(argv[1]);
+        h = atoi(argv[2]);
+    } else {
+        scanf("%zd %zd", &w, &h);
+    }
     int** g;  // id by w * y + x
     g = (int**)calloc(w * h, sizeof(*g));
     for (size_t i = 0; i < w * h; i++)
