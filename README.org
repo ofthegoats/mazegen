@@ -1,0 +1,11 @@
+#+title: mazegen
+
+Mazegen is a simple C maze generation program.
+
+It can be compiled with ~clang~ or ~gcc~ and the provided Makefile uses ~clang~.
+
+When run, it will await an input in the format ~WIDTH HEIGHT~. It will then
+print a randomly generated maze to stdout.
+
+This may be useful as a tool for teaching algorithms and data structures on
+graphs or C.
