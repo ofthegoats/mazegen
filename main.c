@@ -8,7 +8,7 @@ void prepare_grid(int w, int h, int** matrix);
 void build_maze_dfs(int w, int h, int** matrix);
 void output_maze(int w, int h, int** matrix);
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
     size_t w, h;
     if (argc >= 3) {
