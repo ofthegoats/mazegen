@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -7,13 +8,13 @@ void prepare_grid(int w, int h, int** matrix);
 void build_maze_dfs(int w, int h, int** matrix);
 void output_maze(int w, int h, int** matrix);
 
-int main(int argc, char* argv[])
+int main()
 {
     size_t w, h;
     scanf("%zd %zd", &w, &h);
     int** g;  // id by w * y + x
     g = calloc(w * h, sizeof(*g));
-    for (int i = 0; i < w * h; i++)
+    for (size_t i = 0; i < w * h; i++)
         g[i] = calloc(w * h, sizeof(*g[i]));
     prepare_grid(w, h, g);
     build_maze_dfs(w, h, g);
@@ -68,7 +69,7 @@ void build_maze_dfs(int w, int h, int** matrix)
             top++;
             stack[top] = current;
             int r = rand() % no_connected;
-            int next;
+            int next = 0;
             for (int i = 0; i < w * h; i++) {
                 if (matrix[current][i] && !visited[i] && r == 0) {
                     next = i;
@@ -77,6 +78,7 @@ void build_maze_dfs(int w, int h, int** matrix)
                     r--;
                 }
             }
+            assert(next >= 0 && next < w * h && matrix[current][next] && !visited[next]);
             matrix[current][next] = 0;
             matrix[next][current] = 0;
             visited[next] = 1;
