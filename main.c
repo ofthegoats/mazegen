@@ -13,7 +13,7 @@ int main()
     size_t w, h;
     scanf("%zd %zd", &w, &h);
     int** g;  // id by w * y + x
-    g = calloc(w * h, sizeof(*g));
+    g = (int**)calloc(w * h, sizeof(*g));
     for (size_t i = 0; i < w * h; i++)
         g[i] = calloc(w * h, sizeof(*g[i]));
     prepare_grid(w, h, g);
@@ -50,8 +50,8 @@ void prepare_grid(int w, int h, int** matrix)
 void build_maze_dfs(int w, int h, int** matrix)
 {
     srand(time(NULL));
-    int stack[w * h];
-    int visited[w * h];
+    int* stack = (int*)calloc(w * h, sizeof(int));
+    int* visited = (int*)calloc(w * h, sizeof(int));
     for (int i = 0; i < w * h; i++)
         visited[i] = 0;
     stack[0] = 0;  // 0,0
@@ -90,7 +90,9 @@ void build_maze_dfs(int w, int h, int** matrix)
 
 void output_maze(int w, int h, int** matrix)
 {
-    char output[2 * w + 1][2 * h + 1];
+    char** output = (char**)calloc(2 * w + 1, sizeof(char*));
+    for (int i = 0; i < 2 * w + 1; i++)
+        output[i] = calloc(2 * h + 1, sizeof(char));
     for (int i = 0; i < 2 * w + 1; i++)
         for (int j = 0; j < 2 * h + 1; j++) {
             if (i == 0 || i == 2 * w || j == 0 || j == 2 * h)
