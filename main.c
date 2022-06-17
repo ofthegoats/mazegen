@@ -14,8 +14,7 @@ int main(int argc, char* argv[])
     if (argc >= 3) {
         w = atoi(argv[1]);
         h = atoi(argv[2]);
-    }
-    else {
+    } else {
         scanf("%zd %zd", &w, &h);
     }
     int** g;  // id by w * y + x
