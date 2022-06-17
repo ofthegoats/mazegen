@@ -99,7 +99,6 @@ void output_maze(int w, int h, int** matrix)
     for (int i = 0; i < w * h; i++) {
         int x = i % w;
         int y = i / w;
-        output[2 * x + 1][2 * y + 1] = '.';
         if (matrix[i][w * y + (x - 1)] == 1) {
             output[2 * x][2 * y] = '#';
             output[2 * x][2 * y + 1] = '#';
