@@ -95,45 +95,67 @@ void build_maze_dfs(int w, int h, int** matrix)
 
 void output_maze(int w, int h, int** matrix)
 {
-    char** output = (char**)calloc(2 * w + 1, sizeof(char*));
-    for (int i = 0; i < 2 * w + 1; i++)
-        output[i] = calloc(2 * h + 1, sizeof(char));
-    for (int i = 0; i < 2 * w + 1; i++)
-        for (int j = 0; j < 2 * h + 1; j++) {
-            if (i == 0 || i == 2 * w || j == 0 || j == 2 * h)
-                output[i][j] = '#';
-            else
-                output[i][j] = ' ';
-        }
-    for (int i = 0; i < w * h; i++) {
-        int x = i % w;
-        int y = i / w;
-        if (matrix[i][w * y + (x - 1)] == 1) {
-            output[2 * x][2 * y] = '#';
-            output[2 * x][2 * y + 1] = '#';
-            output[2 * x][2 * y + 2] = '#';
-        }
-        if (matrix[i][w * y + (x + 1)] == 1) {
-            output[2 * x + 2][2 * y] = '#';
-            output[2 * x + 2][2 * y + 1] = '#';
-            output[2 * x + 2][2 * y + 2] = '#';
-        }
-        if (matrix[i][w * (y - 1) + x] == 1) {
-            output[2 * x][2 * y] = '#';
-            output[2 * x + 1][2 * y] = '#';
-            output[2 * x + 2][2 * y] = '#';
-        }
-        if (matrix[i][w * (y + 1) + x] == 1) {
-            output[2 * x][2 * y + 2] = '#';
-            output[2 * x + 1][2 * y + 2] = '#';
-            output[2 * x + 2][2 * y + 2] = '#';
-        }
+    /* For every row, print two rows: one containing connections to the right,
+     * the second containing connections below
+     */
+
+    // top border
+    printf("#");
+    for (int x = 0; x < w; x++)
+        printf("##");
+    printf("\n");
+    // print the top row
+    printf("#");
+    for (int x = 0; x < w - 1; x++) {
+        printf(" ");
+        if (matrix[w * (h - 1) + x][w * (h - 1) + (x + 1)])
+            printf("#");
+        else
+            printf(" ");
     }
-    output[0][1] = ' ';  // entrance
-    output[2 * w][2 * h - 1] = ' ';  // exit
-    for (int y = 2 * h + 1; y > 0; --y) {
-        for (int x = 0; x < 2 * w + 1; x++)
-            printf("%c", output[x][y - 1]);
+    printf("  ");  // exit hole
+    printf("\n#");
+    for (int x = 0; x < w; x++) {
+        if (matrix[w * (h - 1) + x][w * (h - 2) + x])
+            printf("#");
+        else
+            printf(" ");
+        printf("#");
+    }
+    printf("\n");
+    // print the middle rows
+    for (int y = h - 2; y > 0; y--) {
+        printf("#");
+        for (int x = 0; x < w - 1; x++) {
+            printf(" ");
+            if (matrix[w * y + x][w * y + (x + 1)])
+                printf("#");
+            else
+                printf(" ");
+        }
+        printf(" #");
+        printf("\n#");
+        for (int x = 0; x < w; x++) {
+            if (matrix[w * y + x][w * (y - 1) + x])
+                printf("#");
+            else
+                printf(" ");
+            printf("#");
+        }
         printf("\n");
     }
+    // print the bottom row
+    printf(" ");  // entry hole
+    for (int x = 0; x < w - 1; x++) {
+        printf(" ");
+        if (matrix[x][x + 1])
+            printf("#");
+        else
+            printf(" ");
+    }
+    printf(" #");
+    printf("\n#");
+    for (int x = 0; x < w; x++)
+        printf("##");
+    printf("\n");
 }
